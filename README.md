@@ -3,7 +3,7 @@
 # 🧬 FastQC AWS Batch Pipeline
 
 A **Nextflow-based FastQC pipeline** that runs on **AWS Batch** using custom Docker and S3 integration.  
-Designed for simple testing and scalable production use with both **EC2** and **Fargate** compute environments.
+Designed for simple testing and scalable production use with  **EC2** compute environments.
 
 ---
 
@@ -58,7 +58,7 @@ aws batch create-compute-environment \
   --compute-environment-name fastqc-fargate-env \
   --type MANAGED \
   --state ENABLED \
-  --compute-resources "type=FARGATE,maxvCpus=64,subnets=subnet-057cd1067dbcac544,securityGroupIds=sg-070e160e270ed56fb"
+  --compute-resources "type=FARGATE,maxvCpus=4,subnets=subnet-xxxxx,securityGroupIds=sg-xxx"
 
 ---
 
@@ -95,14 +95,14 @@ aws ecr create-repository --repository-name fastqc --region us-east-1
 
 ```bash
 aws ecr get-login-password --region us-east-1 \
-  | docker login --username AWS --password-stdin 539323004046.dkr.ecr.us-east-1.amazonaws.com
+  | docker login --username AWS --password-stdin <aws_account_id>.dkr.ecr.us-east-1.amazonaws.com
 ```
 
 ### Tag and Push
 
 ```bash
-docker tag fastqc:latest 539323004046.dkr.ecr.us-east-1.amazonaws.com/fastqc:latest
-docker push 539323004046.dkr.ecr.us-east-1.amazonaws.com/fastqc:latest
+docker tag fastqc:latest <aws_account_id>.dkr.ecr.us-east-1.amazonaws.com/fastqc:latest
+docker push <aws_account_id>.dkr.ecr.us-east-1.amazonaws.com/fastqc:latest
 ```
 
 ---
