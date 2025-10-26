@@ -1,4 +1,5 @@
-````markdown
+
+
 # 🧬 FastQC AWS Batch Pipeline
 
 A **Nextflow-based FastQC pipeline** that runs on **AWS Batch** using custom Docker and S3 integration.  
@@ -58,7 +59,6 @@ aws batch create-compute-environment \
   --type MANAGED \
   --state ENABLED \
   --compute-resources "type=FARGATE,maxvCpus=64,subnets=subnet-057cd1067dbcac544,securityGroupIds=sg-070e160e270ed56fb"
-````
 
 ---
 
