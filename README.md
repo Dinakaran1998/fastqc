@@ -12,10 +12,10 @@ This repository provides a complete setup to run [FastQC](https://www.bioinforma
 
 It includes:
 
-- A **Nextflow workflow** for FastQC
-- A **Docker container** for FastQC
-- **AWS Batch** configuration for compute environments and job queues
-- Step-by-step setup and deployment instructions
+- A **Nextflow workflow** for FastQC  
+- A **Docker container** for FastQC  
+- **AWS Batch** configuration for compute environments and job queues  
+- Step-by-step setup and deployment instructions  
 
 ---
 
@@ -32,9 +32,7 @@ Before running, ensure you have the following installed and configured:
 
 ---
 
-## 🚀 Setup and Deployment
-
-### 1. Create AWS Infrastructure (“VPC and more”)
+## 3. Create AWS Infrastructure (“VPC and more”)
 
 When you select **“VPC and more”** in AWS Batch setup, AWS automatically creates:
 
@@ -51,9 +49,9 @@ When you select **“VPC and more”** in AWS Batch setup, AWS automatically cre
 
 ---
 
-### 2. Create AWS Batch Compute Environment
+## 4. Create AWS Batch Compute Environment
 
-#### Example (Fargate)
+### Example (Fargate)
 ```bash
 aws batch create-compute-environment \
   --compute-environment-name fastqc-fargate-env \
@@ -64,7 +62,7 @@ aws batch create-compute-environment \
 
 ---
 
-### 3. Create an IAM Role for Batch
+## 5. Create an IAM Role for Batch
 
 1. Go to **IAM → Roles → Create role**
 2. Choose **Trusted entity: AWS service**
@@ -79,37 +77,37 @@ aws batch create-compute-environment \
 
 ---
 
-### 4. Build and Push Docker Image
+## 6. Build and Push Docker Image
 
-#### Build
+### Build
 
 ```bash
 sudo docker build -t fastqc .
 ```
 
-#### Create ECR Repository
+### Create ECR Repository
 
 ```bash
 aws ecr create-repository --repository-name fastqc --region us-east-1
 ```
 
-#### Login to ECR
+### Login to ECR
 
 ```bash
 aws ecr get-login-password --region us-east-1 \
-  | docker login --username AWS --password-stdin <aws_account_id>.dkr.ecr.us-east-1.amazonaws.com
+  | docker login --username AWS --password-stdin 539323004046.dkr.ecr.us-east-1.amazonaws.com
 ```
 
-#### Tag and Push
+### Tag and Push
 
 ```bash
-docker tag fastqc:latest <aws_account_id>.dkr.ecr.us-east-1.amazonaws.com/fastqc:latest
-docker push <aws_account_id>.dkr.ecr.us-east-1.amazonaws.com/fastqc:latest
+docker tag fastqc:latest 539323004046.dkr.ecr.us-east-1.amazonaws.com/fastqc:latest
+docker push 539323004046.dkr.ecr.us-east-1.amazonaws.com/fastqc:latest
 ```
 
 ---
 
-## ▶️ Running the Pipeline
+## 7. Running the Pipeline
 
 ### Option 1: Local Execution
 
@@ -131,7 +129,7 @@ s3://aws-batch-input-bioinformatics/fastqc-results/
 
 ---
 
-## 🔒 Best Practices
+## 8. Best Practices
 
 | Environment | Subnet Type | Internet Access | Notes          |
 | ----------- | ----------- | --------------- | -------------- |
@@ -140,7 +138,7 @@ s3://aws-batch-input-bioinformatics/fastqc-results/
 
 ---
 
-## 📈 Scaling and Performance
+## 9. Scaling and Performance
 
 * Use **multiple subnets across AZs** for high availability
 * Increase `maxvCpus` in the compute environment to allow scaling
@@ -148,7 +146,7 @@ s3://aws-batch-input-bioinformatics/fastqc-results/
 
 ---
 
-## 🧹 Cleanup
+## 10. Cleanup
 
 To remove all AWS resources created for this demo:
 
@@ -158,4 +156,3 @@ aws ecr delete-repository --repository-name fastqc --force
 ```
 
 ---
-
